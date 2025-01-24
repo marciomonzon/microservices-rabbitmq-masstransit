@@ -11,4 +11,9 @@
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\AirlineBookingSystem.Bookings.Core\AirlineBookingSystem.Bookings.Core.csproj" />
+    <ProjectReference Include="..\AirlineBookingSystem.Bookings.Infrastructure\AirlineBookingSystem.Bookings.Infrastructure.csproj" />
+  </ItemGroup>
+
 </Project>
