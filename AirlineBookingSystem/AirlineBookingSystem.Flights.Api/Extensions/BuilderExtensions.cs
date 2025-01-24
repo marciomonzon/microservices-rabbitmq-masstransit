@@ -1,9 +1,9 @@
-﻿using AirlineBookingSystem.Bookings.Core.Repositories;
-using AirlineBookingSystem.Bookings.Infrastructure.Repositories;
+﻿using AirlineBookingSystem.Flights.Core.Repositories;
+using AirlineBookingSystem.Flights.Infrastructure.Repositories;
 using Microsoft.Data.SqlClient;
 using System.Data;
 
-namespace AirlineBookingSystem.Bookings.Api.Extensions
+namespace AirlineBookingSystem.Flights.Api.Extensions
 {
     public static class BuilderExtensions
     {
@@ -22,7 +22,7 @@ namespace AirlineBookingSystem.Bookings.Api.Extensions
 
         public static void AddScopedServices(this WebApplicationBuilder builder)
         {
-            builder.Services.AddScoped<IBookingRepository, BookingRepository>();
+            builder.Services.AddScoped<IFlightRepository, FlightRepository>();
         }
     }
 }

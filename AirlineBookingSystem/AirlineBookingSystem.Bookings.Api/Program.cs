@@ -4,7 +4,6 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.AddServices();
 builder.AddDatabase();
-builder.AddMediatrCommands();
 builder.AddScopedServices();
 
 var app = builder.Build();
