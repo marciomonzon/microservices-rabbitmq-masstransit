@@ -1,7 +1,9 @@
-﻿using AirlineBookingSystem.Bookings.Core.Repositories;
+﻿using AirlineBookingSystem.Bookings.Application.Handlers;
+using AirlineBookingSystem.Bookings.Core.Repositories;
 using AirlineBookingSystem.Bookings.Infrastructure.Repositories;
 using Microsoft.Data.SqlClient;
 using System.Data;
+using System.Reflection;
 
 namespace AirlineBookingSystem.Bookings.Api.Extensions
 {
@@ -23,6 +25,18 @@ namespace AirlineBookingSystem.Bookings.Api.Extensions
         public static void AddScopedServices(this WebApplicationBuilder builder)
         {
             builder.Services.AddScoped<IBookingRepository, BookingRepository>();
+        }
+
+        public static void AddMediatr(this WebApplicationBuilder builder)
+        {
+            var assemblies = new Assembly[]
+            {
+                Assembly.GetExecutingAssembly(),
+                typeof(CreateBookingHandler).Assembly,
+                typeof(GetBookingHandler).Assembly
+            };
+
+            builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblies(assemblies));
         }
     }
 }
