@@ -1,4 +1,6 @@
 ﻿using AirlineBookingSystem.Notifications.Application.Handlers;
+using AirlineBookingSystem.Notifications.Application.Services;
+using AirlineBookingSystem.Notifications.Application.Services.Interfaces;
 using AirlineBookingSystem.Notifications.Core.Repositories;
 using AirlineBookingSystem.Notifications.Infrastructure.Repositories;
 using Microsoft.Data.SqlClient;
@@ -25,6 +27,7 @@ namespace AirlineBookingSystem.Notifications.Api.Extensions
         public static void AddScopedServices(this WebApplicationBuilder builder)
         {
             builder.Services.AddScoped<INotificationRepository, NotificationRepository>();
+            builder.Services.AddScoped<INotificationService, NotificationService>();
         }
 
         public static void AddMediatr(this WebApplicationBuilder builder)
