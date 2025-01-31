@@ -1,7 +1,9 @@
-﻿using AirlineBookingSystem.Flights.Core.Repositories;
+﻿using AirlineBookingSystem.Flights.Application.Handlers;
+using AirlineBookingSystem.Flights.Core.Repositories;
 using AirlineBookingSystem.Flights.Infrastructure.Repositories;
 using Microsoft.Data.SqlClient;
 using System.Data;
+using System.Reflection;
 
 namespace AirlineBookingSystem.Flights.Api.Extensions
 {
@@ -23,6 +25,19 @@ namespace AirlineBookingSystem.Flights.Api.Extensions
         public static void AddScopedServices(this WebApplicationBuilder builder)
         {
             builder.Services.AddScoped<IFlightRepository, FlightRepository>();
+        }
+
+        public static void AddMediatr(this WebApplicationBuilder builder)
+        {
+            var assemblies = new Assembly[]
+            {
+                Assembly.GetExecutingAssembly(),
+                typeof(CreateFlightHandler).Assembly,
+                typeof(DeleteFlightHandler).Assembly,
+                typeof(GetAllFlightsHandler).Assembly
+            };
+
+            builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblies(assemblies));
         }
     }
 }

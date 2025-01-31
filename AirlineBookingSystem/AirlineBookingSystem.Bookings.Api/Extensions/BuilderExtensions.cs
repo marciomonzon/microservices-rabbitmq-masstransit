@@ -18,8 +18,9 @@ namespace AirlineBookingSystem.Bookings.Api.Extensions
 
         public static void AddDatabase(this WebApplicationBuilder builder)
         {
-            builder.Services.AddScoped<IDbConnection>(sp =>
-                    new SqlConnection(builder.Configuration.GetConnectionString("DefaultConnection")));
+            builder.Services
+                   .AddScoped<IDbConnection>(sp =>
+                   new SqlConnection(builder.Configuration.GetConnectionString("DefaultConnection")));
         }
 
         public static void AddScopedServices(this WebApplicationBuilder builder)
