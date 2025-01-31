@@ -1,7 +1,9 @@
-﻿using AirlineBookingSystem.Notifications.Core.Repositories;
+﻿using AirlineBookingSystem.Notifications.Application.Handlers;
+using AirlineBookingSystem.Notifications.Core.Repositories;
 using AirlineBookingSystem.Notifications.Infrastructure.Repositories;
 using Microsoft.Data.SqlClient;
 using System.Data;
+using System.Reflection;
 
 namespace AirlineBookingSystem.Notifications.Api.Extensions
 {
@@ -23,6 +25,17 @@ namespace AirlineBookingSystem.Notifications.Api.Extensions
         public static void AddScopedServices(this WebApplicationBuilder builder)
         {
             builder.Services.AddScoped<INotificationRepository, NotificationRepository>();
+        }
+
+        public static void AddMediatr(this WebApplicationBuilder builder)
+        {
+            var assemblies = new Assembly[]
+            {
+                Assembly.GetExecutingAssembly(),
+                typeof(SendNotificationHandler).Assembly
+            };
+
+            builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblies(assemblies));
         }
     }
 }
