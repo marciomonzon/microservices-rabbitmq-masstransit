@@ -24,11 +24,10 @@ namespace AirlineBookingSystem.Payments.Api.Controllers
         }
 
         [HttpDelete("refund/{id}")]
-        public async Task<IActionResult> RefundPayment([FromBody] RefundPaymentCommand command)
+        public async Task<IActionResult> RefundPayment(Guid id)
         {
-            await _mediator.Send(command);
+            await _mediator.Send(new RefundPaymentCommand(id));
             return NoContent();
-            
         }
     }
 }

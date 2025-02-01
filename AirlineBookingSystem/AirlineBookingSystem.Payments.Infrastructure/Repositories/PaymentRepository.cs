@@ -16,16 +16,16 @@ namespace AirlineBookingSystem.Payments.Infrastructure.Repositories
 
         public async Task ProcessPaymentAsync(Payment payment)
         {
-            const string sql = @"INSERT INTO [dbo].[Payments]
-                                      ([Id]
-                                      ,[BookingId]
-                                      ,[Amount]
-                                      ,[PaymentDate])
+            const string sql = @"INSERT INTO Payments
+                                      (Id
+                                      ,BookingId
+                                      ,Amount
+                                      ,PaymentDate)
                                 VALUES
                                       (@Id
                                       ,@BookingId
                                       ,@Amount
-                                      ,@PaymentDate";
+                                      ,@PaymentDate)";
 
             await _dbConnection.ExecuteAsync(sql, payment);
         }

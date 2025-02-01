@@ -17,7 +17,7 @@ namespace AirlineBookingSystem.Bookings.Infrastructure.Repositories
         public async Task AddBookingAsync(Booking booking)
         {
             const string sql =
-                @"INSERT INTO Bookings(Id, FlightId, PassengerName, SeatName, BookingName) 
+                @"INSERT INTO Bookings(Id, FlightId, PassengerName, SeatNumber, BookingDate) 
                 VALUES (@Id, @FlightId, @PassengerName, @SeatNumber, @BookingDate)";
 
             await _dbConnection.ExecuteAsync(sql, booking);
@@ -25,7 +25,7 @@ namespace AirlineBookingSystem.Bookings.Infrastructure.Repositories
 
         public async Task<Booking> GetBookingByIdAsync(Guid Id)
         {
-            const string sql = @"SELECT * FROM Bookins WHERE Id = @Id";
+            const string sql = @"SELECT * FROM Bookings WHERE Id = @Id";
 
             return await _dbConnection
                          .QuerySingleOrDefaultAsync<Booking>(sql, new { Id = Id });
