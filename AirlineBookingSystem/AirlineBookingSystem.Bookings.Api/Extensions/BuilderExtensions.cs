@@ -52,14 +52,12 @@ namespace AirlineBookingSystem.Bookings.Api.Extensions
                 config.UsingRabbitMq((context, config) =>
                 {
                     config.Host(builder.Configuration["EventBusSettings:HostAddress"]);
-                    config.ReceiveEndpoint(EventBusConstant.NotificatinSentQueue, c =>
+                    config.ReceiveEndpoint(EventBusConstant.NotificationSentQueue, c =>
                     {
                         c.ConfigureConsumer<NotificationEventConsumer>(context);
                     });
                 });
             });
         }
-
-        
     }
 }
