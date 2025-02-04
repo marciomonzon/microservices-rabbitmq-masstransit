@@ -1,6 +1,9 @@
-﻿using AirlineBookingSystem.Bookings.Application.Handlers;
+﻿using AirlineBookingSystem.Bookings.Application.Consumers;
+using AirlineBookingSystem.Bookings.Application.Handlers;
 using AirlineBookingSystem.Bookings.Core.Repositories;
 using AirlineBookingSystem.Bookings.Infrastructure.Repositories;
+using AirlineBookingSystem.BuildingBlocks.Common;
+using MassTransit;
 using Microsoft.Data.SqlClient;
 using System.Data;
 using System.Reflection;
@@ -39,5 +42,24 @@ namespace AirlineBookingSystem.Bookings.Api.Extensions
 
             builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblies(assemblies));
         }
+
+        public static void AddMassTransit(this WebApplicationBuilder builder)
+        {
+            builder.Services.AddMassTransit((config) =>
+            {
+                config.AddConsumer<NotificationEventConsumer>();
+
+                config.UsingRabbitMq((context, config) =>
+                {
+                    config.Host(builder.Configuration["EventBusSettings:HostAddress"]);
+                    config.ReceiveEndpoint(EventBusConstant.NotificatinSentQueue, c =>
+                    {
+                        c.ConfigureConsumer<NotificationEventConsumer>(context);
+                    });
+                });
+            });
+        }
+
+        
     }
 }
