@@ -1,8 +1,11 @@
-﻿using AirlineBookingSystem.Notifications.Application.Handlers;
+﻿using AirlineBookingSystem.BuildingBlocks.Common;
+using AirlineBookingSystem.Notifications.Application.Consumers;
+using AirlineBookingSystem.Notifications.Application.Handlers;
 using AirlineBookingSystem.Notifications.Application.Services;
 using AirlineBookingSystem.Notifications.Application.Services.Interfaces;
 using AirlineBookingSystem.Notifications.Core.Repositories;
 using AirlineBookingSystem.Notifications.Infrastructure.Repositories;
+using MassTransit;
 using Microsoft.Data.SqlClient;
 using System.Data;
 using System.Reflection;
@@ -39,6 +42,23 @@ namespace AirlineBookingSystem.Notifications.Api.Extensions
             };
 
             builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblies(assemblies));
+        }
+
+        public static void AddMassTransit(this WebApplicationBuilder builder)
+        {
+            builder.Services.AddMassTransit((config) =>
+            {
+                config.AddConsumer<PaymentProcessConsumer>();
+
+                config.UsingRabbitMq((context, config) =>
+                {
+                    config.Host(builder.Configuration["EventBusSettings:HostAddress"]);
+                    config.ReceiveEndpoint(EventBusConstant.PaymentProcessedQueue, c =>
+                    {
+                        c.ConfigureConsumer<PaymentProcessConsumer>(context);
+                    });
+                });
+            });
         }
     }
 }

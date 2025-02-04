@@ -6,6 +6,7 @@ builder.AddServices();
 builder.AddDatabase();
 builder.AddScopedServices();
 builder.AddMediatr();
+builder.AddMassTransit();
 
 var app = builder.Build();
 
